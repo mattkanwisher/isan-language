@@ -1,11 +1,9 @@
-## Middleman Webpack
+## Isan-Language.com
 
-- [Middleman](https://middlemanapp.com)
-- [Yarn](https://yarnpkg.com)
-- [webpack](https://webpack.js.org) with [Babel](https://babeljs.org)
-- [Sass](https://sass-lang.com)
-- [Netlify CMS](https://www.netlifycms.org/)
-- [PurgeCSS](https://purgecss.com/)
+This is an open source resource for Thai Northeastern Dialect called Isan. Check the website [isan-language.com](https://isan-language.com)
+
+
+
 
 ### Installation
 ```
