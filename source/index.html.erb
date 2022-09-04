@@ -1,0 +1,12 @@
+<title> Isan Language - Resources for Northeastern Dialect of Thai </title>
+
+<h1> Isan Language - Resources for Northeastern Dialect of Thai </h1>
+
+<h3> Blog posts</h3>
+<ul>
+  <% data.posts.each do |_filename, post| %>
+    <li>
+      <%= link_to post.title, "/posts/#{post[:title].parameterize}/" %>
+      <% end %>
+    </li>
+</ul>

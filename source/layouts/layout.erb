@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Middleman + Webpack + Netlify CMS</title>
+    <meta name="description" content="A Middleman + Netlify CMS starter running an external pipeline with Webpack & Babel">
+
+    <%# Getting the assets generated from webpack. Using a regex because of asset hashes%>
+    <% sitemap.resources.select {|resource| resource.path =~ /^(?!.*txt)(main).*$/}.each do |resource| %>
+      <%# stylesheet %>
+      <% if resource.path =~ /\.(css)/ %>
+        <link rel="stylesheet" type="text/css" href="/<%= resource.path %>">
+
+      <%# javascript %>
+      <% elsif resource.path =~ /\.(js)/ %>
+        <%= javascript_include_tag resource.path, async: true %>
+      <%end %>
+    <% end %>
+
+  </head>
+
+  <body>
+    <%= yield %>
+
+    <%# Only include serviceworker in production %>
+    <% if app.build? %>
+      <script type="text/javascript">
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function() {
+            navigator.serviceWorker.register("/sw.js").then(function(reg) {
+              reg.onupdatefound = function() {
+                var installingWorker = reg.installing;
+
+                installingWorker.onstatechange = function() {
+                  switch (installingWorker.state) {
+                    case 'installed':
+                      if (navigator.serviceWorker.controller) {
+                        console.log('New or updated content is available.');
+                      } else {
+                        console.log('Content is now available offline!');
+                      }
+                      break;
+
+                    case 'redundant':
+                      console.error('The installing service worker became redundant.');
+                      break;
+                  }
+                };
+              };
+            }).catch(function(e) {
+              console.error('Error during service worker registration:', e);
+            });
+          });
+        }
+
+      </script>
+    <% end %>
+  </body>
+</html>
